@@ -1,0 +1,110 @@
+model:
+  policy_model:
+    ckpt: /code/FineGrainedRLHF/tasks/qa_feedback/model_outputs/t5-small-full-train/best
+    input_padding_side: right
+    train_generation_kwargs:
+      do_sample: True
+      top_k: 20
+      top_p: null
+      temperature: 0.7
+    eval_generation_kwargs:
+      do_sample: False
+      num_beams: 1
+  value_model:
+    ckpt: /code/FineGrainedRLHF/ModelSets/t5-base
+    freeze_value_model: False
+    policy_value_sharing: False
+  
+test_model: /code/FineGrainedRLHF/tasks/qa_feedback/model_outputs/rel_RLHF_T5-small-step_steponly/T5-small-full_rel_rm_step_90_f1_0.627_acc_0.584
+
+reward:
+  # model_types: ["relevance", "factuality", "completeness"]
+  # model_types: []
+  # model_types: ["factuality"]
+  model_types: ["relevance"]
+  # model_types: ["completeness"]
+
+  relevance_model:
+    ckpt: /code/FineGrainedRLHF/ModelSets/rel_rm_best
+    positive_reward: 0.3
+    negative_reward: -0.3
+    load_model: True
+  eval_relevance_model:
+    ckpt: /code/FineGrainedRLHF/ModelSets/rel_rm_best
+    positive_reward: 0.3
+    negative_reward: -0.3
+    load_model: True
+
+  factuality_model:
+    ckpt: /code/FineGrainedRLHF/tasks/qa_feedback/model_outputs/fact_rm/(200epoch)_test/model_epoch_115.0_f1_0.657_acc_0.759
+    positive_reward: 0.5
+    negative_reward: -0.5
+    load_model: False
+  eval_factuality_model:
+    ckpt: ./tasks/qa_feedback/model_outputs/fact_rm/fact_rm_best
+    positive_reward: 0.5
+    negative_reward: -0.5
+    load_model: False
+
+  completeness_model:
+    ckpt: /code/FineGrainedRLHF/tasks/qa_feedback/model_outputs/SelectSet_rm-FN/comp_rm/model_epoch_25.594405594405593_acc_0.670
+    mean: -0.44677690555995353
+    std: 8.301160619054132
+    bias: 0.0
+    scale: 0.3
+    load_model: False
+  eval_completeness_model:
+    ckpt: ./tasks/qa_feedback/model_outputs/comp_rm/comp_rm_best
+    mean: -0.44677690555995353
+    std: 8.301160619054132
+    bias: 0.0
+    scale: 0.3
+    load_model: False
+
+
+env:
+  max_input_len: 1024
+  max_generated_len: 200
+  train_num_samples_per_input: 4
+
+ppo:
+  kl_coef: 0.3
+  lam: 0.95
+  gamma: 1.0
+  pg_coef: 1.0
+  vf_coef: 1.0
+  cliprange: 0.2
+  cliprange_value: 0.2
+  whiten_rewards: True
+  sep: </s>
+
+train:
+  total_episodes: 0
+  eval_interval: 50
+  sampling_batch_size_per_card: 16
+  training_batch_size_per_card: 8
+  lr: 0.00001
+  n_warmup_steps: 100
+  n_ppo_epoch_per_rollout: 4
+  kl_threshold: 10.0
+  clip_grad: False
+  max_grad_norm: 0.5
+  seed: 42
+  cuda_deterministic: True
+
+logging:
+  # run_name: 1（Test）fact_rm_f1_0.653_acc_0.771_epo114
+  # run_name: 2（Test）rel_rm_f1_0.711_acc_0.703_epo18
+  run_name: 2（Test）rel_rm_step_90_f1_0.627_acc_0.584
+  # run_name: （T5-Base-full）rel_rm_f1_0.628_acc_0.639_epo10
+  # run_name: （T5-Base-full）comp_rm_epo25.594405594405593_acc_0.670
+  wandb_log: True
+  wandb_entity: battam
+  # wandb_project: T5-Base_RM_research
+  wandb_project: T5-small_RM_research_StepTest_StepOnly
+  # wandb_project: RLHF
+  log_interval: 1
+  # save_dir: tasks/qa_feedback/model_outputs/fact_RLHF_T5-base/T5-Base-full_fact_rm_f1_0.650_acc_0.759_epo15
+  # save_dir: tasks/qa_feedback/model_outputs/fact_RLHF_T5-base/T5-Base-full_rel_rm_f1_0.628_acc_0.639_epo10
+  save_dir: tasks/qa_feedback/model_outputs/Test/T5-small-full/fact_rm_f1_0.653_acc_0.771_epo114
+  # save_dir: tasks/qa_feedback/model_outputs/Test/T5-small-full/rel_rm_f1_0.711_acc_0.703_epo18

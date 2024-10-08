@@ -1,0 +1,120 @@
+model:
+  policy_model:
+    ckpt: ./ModelSets/t5-large-full-train_best
+    # ckpt: ./tasks/qa_feedback/model_outputs/t5-base-full-train/best
+    input_padding_side: right
+    train_generation_kwargs:
+      do_sample: True
+      top_k: 20
+      top_p: null
+      temperature: 0.7
+    eval_generation_kwargs:
+      do_sample: False
+      num_beams: 1
+  value_model:
+    ckpt: /code/FineGrainedRLHF/ModelSets/t5-base
+    freeze_value_model: False
+    policy_value_sharing: False
+
+test_model: /code/FineGrainedRLHF/tasks/qa_feedback/model_outputs/comp_S2_T5-large/T5-Large-full_comp_pm(bestPm_rm5_to_rm5)/model_step_300_completeness_model_ model_epoch_30.41958041958042_acc_0.693_ eval_completeness_model_ comp_rm_best.pth
+
+reward:
+  # model_types: ["relevance", "factuality", "completeness"]
+  # model_types: []
+  # model_types: ["factuality"]
+  # model_types: ["relevance"]
+  model_types: ["completeness"]
+
+  relevance_model:
+    ckpt: ./tasks/qa_feedback/model_outputs/rel_rm/rel_rm_best
+    positive_reward: 0.3
+    negative_reward: -0.3
+    load_model: False
+  eval_relevance_model:
+    ckpt: ./tasks/qa_feedback/model_outputs/rel_rm/rel_rm_best
+    positive_reward: 0.3
+    negative_reward: -0.3
+    load_model: False
+
+  factuality_model:
+    ckpt: ./tasks/qa_feedback/model_outputs/fact_rm/model_epoch_2.0_f1_0.399_acc_0.706
+    positive_reward: 0.5
+    negative_reward: -0.5
+    load_model: False
+  eval_factuality_model:
+    ckpt: ./tasks/qa_feedback/model_outputs/fact_rm/fact_rm_best
+    positive_reward: 0.5
+    negative_reward: -0.5
+    load_model: False
+
+  completeness_model:
+    ckpt: ./tasks/qa_feedback/model_outputs/comp_rm/comp_rm_best
+    mean: -0.44677690555995353
+    std: 8.301160619054132
+    bias: 0.0
+    scale: 0.3
+    load_model: True
+  eval_completeness_model:
+    ckpt: ./tasks/qa_feedback/model_outputs/comp_rm/comp_rm_best
+    mean: -0.44677690555995353
+    std: 8.301160619054132
+    bias: 0.0
+    scale: 0.3
+    load_model: True
+
+env:
+  max_input_len: 1024
+  max_generated_len: 200
+  train_num_samples_per_input: 4
+
+ppo:
+  kl_coef: 0.3
+  lam: 0.95
+  gamma: 1.0
+  pg_coef: 1.0
+  vf_coef: 1.0
+  cliprange: 0.2
+  cliprange_value: 0.2
+  whiten_rewards: True
+  sep: </s>
+
+train:
+  total_episodes: 0
+  eval_interval: 50
+  sampling_batch_size_per_card: 32
+  training_batch_size_per_card: 16
+  lr: 0.00001
+  n_warmup_steps: 100
+  n_ppo_epoch_per_rollout: 4
+  kl_threshold: 10.0
+  clip_grad: False
+  max_grad_norm: 0.5
+  seed: 42
+  cuda_deterministic: True
+
+logging:
+  # run_name: Test（T5-Base-full）rel_rm_f1_0.685_acc_0.673_step550
+  # run_name: Test（T5-Base-full）fact_rm_f1_0.650_acc_0.759_step550
+  # run_name: Test（T5-Base-full）fact_pm(bestPm_rm4_to_rm4)
+  # run_name: Test（T5-Base-full）fact_rm(bestPm_rm4_to_rm5)
+  # run_name: Test（T5-Base-full）rel_rm(bestPm_rm4_to_rm5)
+  # run_name: Test（T5-Base-full）comp_rm(bestPm_rm4_to_rm5)
+  # run_name: Test（T5-Base-full）comp_rm_epo30.41958041958042_acc_0.693_step600(+200)
+  # run_name: Test（T5-Large-full）fact_rm_f1_0.650_acc_0.759_step500
+  # run_name: Test（T5-Large-full）rel_rm_f1_0.711_acc_0.703_step600
+  # run_name: Test（T5-Large-full）comp_rm_epo25.594405594405593_acc_0.670_step550
+  # run_name: Test（T5-Large-full）fact_pm(bestPm_rm4_to_rm5)
+  # run_name: Test（T5-Large-full）rel_rm(bestPm_rm1_to_rm5)
+  run_name: Test（T5-Large-full）comp_rm(bestPm_rm5_to_rm5)
+
+  wandb_log: True
+  wandb_entity: battam
+  wandb_project: Test-T5-Large
+  # wandb_project: Test-T5-base
+  log_interval: 1
+  # save_dir: tasks/qa_feedback/model_outputs/Test(T5-Base)/rel_rm
+  # save_dir: tasks/qa_feedback/model_outputs/Test(T5-Base)/comp_rm
+  # save_dir: tasks/qa_feedback/model_outputs/Test(T5-Base)/fact_rm
+  # save_dir: tasks/qa_feedback/model_outputs/Test(T5-Large)/rel_rm
+  save_dir: tasks/qa_feedback/model_outputs/Test(T5-Large)/comp_rm
+  # save_dir: tasks/qa_feedback/model_outputs/Test(T5-Large)/fact_rm
