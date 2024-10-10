@@ -10,7 +10,7 @@
 ![T5-base](https://img.shields.io/badge/Model-T5--base-21C2A4)
 ![T5-large](https://img.shields.io/badge/Model-T5--large-21C2A4)
 
-📰 [Paper (TBD)]
+📰 [Paper](https://arxiv.org/abs/2410.06554)
 
 </div>
 
@@ -45,11 +45,9 @@ Our experiments reveal a **consistent trend**: models trained with moderately ac
 ## 5. Conclusion
 This study challenges the prevailing assumption that higher reward model accuracy always leads to better language model performance in RLHF. Our findings show that **moderate accuracy in reward models** can improve task alignment and training stability, leading to better outcomes across relevance, factuality, and completeness tasks. Future research should explore how to fine-tune reward models to achieve the optimal balance between accuracy and generalization, particularly in complex NLP tasks.
 
----
-
 ## 6. Citation
 ```bibtex
-@inproceedings{chen2024coordinate,
+@inproceedings{chen2024accuracyparadoxrlhfbetter,
   title={The Accuracy Paradox in RLHF: When Better Reward Models Don't Yield Better Language Models},
   author={Yanjun Chen, Dawei Zhu, Yirong Sun, Xinghao Chen, Wei Zhang, Xiaoyu Shen},
   booktitle={Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
