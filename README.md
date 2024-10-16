@@ -47,11 +47,11 @@ This study challenges the prevailing assumption that higher reward model accurac
 
 ## 6. Citation
 ```bibtex
-@inproceedings{chen2024accuracyparadoxrlhfbetter,
+@article{chen2024accuracy,
   title={The Accuracy Paradox in RLHF: When Better Reward Models Don't Yield Better Language Models},
-  author={Yanjun Chen, Dawei Zhu, Yirong Sun, Xinghao Chen, Wei Zhang, Xiaoyu Shen},
-  booktitle={Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
-  year={2024},
+  author={Chen, Yanjun and Zhu, Dawei and Sun, Yirong and Chen, Xinghao and Zhang, Wei and Shen, Xiaoyu},
+  journal={arXiv preprint arXiv:2410.06554},
+  year={2024}
 }
 ```
 
