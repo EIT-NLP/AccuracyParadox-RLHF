@@ -47,11 +47,25 @@ This study challenges the prevailing assumption that higher reward model accurac
 
 ## 6. Citation
 ```bibtex
-@article{chen2024accuracy,
-  title={The Accuracy Paradox in RLHF: When Better Reward Models Don't Yield Better Language Models},
-  author={Chen, Yanjun and Zhu, Dawei and Sun, Yirong and Chen, Xinghao and Zhang, Wei and Shen, Xiaoyu},
-  journal={arXiv preprint arXiv:2410.06554},
-  year={2024}
+@inproceedings{chen-etal-2024-accuracy,
+    title = "The Accuracy Paradox in {RLHF}: When Better Reward Models Don{'}t Yield Better Language Models",
+    author = "Chen, Yanjun  and
+      Zhu, Dawei  and
+      Sun, Yirong  and
+      Chen, Xinghao  and
+      Zhang, Wei  and
+      Shen, Xiaoyu",
+    editor = "Al-Onaizan, Yaser  and
+      Bansal, Mohit  and
+      Chen, Yun-Nung",
+    booktitle = "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing",
+    month = nov,
+    year = "2024",
+    address = "Miami, Florida, USA",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.emnlp-main.174",
+    pages = "2980--2989",
+    abstract = "Reinforcement Learning from Human Feedback significantly enhances Natural Language Processing by aligning language models with human expectations. A critical factor in this alignment is the strength of reward models used during training. This study explores whether stronger reward models invariably lead to better language models. In this paper, through experiments on relevance, factuality, and completeness tasks using the QA-FEEDBACK dataset and reward models based on Longformer, we uncover a surprising paradox: language models trained with moderately accurate reward models outperform those guided by highly accurate ones. This challenges the widely held belief that stronger reward models always lead to better language models, and opens up new avenues for future research into the key factors driving model performance and how to choose the most suitable reward models.",
 }
 ```
 
